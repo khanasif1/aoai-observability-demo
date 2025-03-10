@@ -1,0 +1,4 @@
+env/
+openManus/logs/
+openManus/config/config.toml
+openManus/config/test.py
