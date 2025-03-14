@@ -1,0 +1,7 @@
+opentelemetry-api
+opentelemetry-exporter-otlp
+azure.monitor.opentelemetry
+
+aiohttp
+python-dotenv
+azure-ai-inference
