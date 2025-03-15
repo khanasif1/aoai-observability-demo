@@ -45,9 +45,10 @@ tracer = get_tracer(__name__)
 load_dotenv()
 
 @tracer.start_as_current_span("Get4o Processing")  # type: ignore
-def sample_chat_completions_azure_openai(prompt):
+def sample_chat_completions_azure_openai(username, prompt):
     
     span = trace.get_current_span()
+    span.set_attribute("User Name",username)
     span.set_attribute("User Prompt",prompt)
     try:
         endpoint = os.getenv("endpoint") #os.environ["AZURE_OPENAI_CHAT_ENDPOINT"]
@@ -98,5 +99,6 @@ def sample_chat_completions_azure_openai(prompt):
 
 if __name__ == "__main__":
     configure_azure_monitor()
+    username = input("Enter user name: ")
     prompt = input("Enter your prompt: ")
-    sample_chat_completions_azure_openai(prompt)
+    sample_chat_completions_azure_openai(username, prompt)
