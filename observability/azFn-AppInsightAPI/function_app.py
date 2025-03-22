@@ -22,17 +22,32 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Azure Function HTTP trigger received a request.")
 
     # Kusto Query to get last 10 dependency logs
-    query = "traces | take 10"
+    # query = "traces | take 10"
     # start_time = datetime.utcnow() - timedelta(days=10)
     # end_time = datetime.utcnow()
     try:
           # Get token using DefaultAzureCredential (works if you've logged in via az login)
         credential = DefaultAzureCredential()
         token = credential.get_token("https://api.applicationinsights.io/.default").token
-        print("Token acquired: ", token)
+        # print("Token acquired: ", token)
         # Define query
-        query = "dependencies |project id, operation_ParentId, target, name,customDimensions['gen_ai.usage.input_tokens'],customDimensions['gen_ai.usage.output_tokens'], customDimensions['User Name']"
+        # query = "dependencies | where target contains 'Get4o Processing' or target contains 'chat' | where timestamp >= ago(10d) | project id, operation_ParentId, target, name,customDimensions['gen_ai.usage.input_tokens'],customDimensions['gen_ai.usage.output_tokens'], customDimensions['User Name']"
+        
+        query = """let usr = dependencies 
+                    | where target contains 'Get4o Processing' 
+                    | where timestamp >= ago(10d) 
+                    | project id, operation_ParentId, target_usr=target, name, user=customDimensions['User Name'];
 
+                    let token = dependencies 
+                    | where target contains 'chat' 
+                    | where timestamp >= ago(10d) 
+                    | project id, operation_ParentId, target_token=target, name, ot=customDimensions['gen_ai.usage.output_tokens'],it=customDimensions['gen_ai.usage.input_tokens'];
+
+                    usr 
+                    | join kind=inner (token) on $left.id == $right.operation_ParentId
+                    | where isnotempty(user)
+                    | project id, operation_ParentId, target_usr, target_token, name, user, it, ot"""
+       
         # Call Application Insights REST API
         url = f"https://api.applicationinsights.io/v1/apps/{APP_INSIGHTS_APP_ID}/query"
         headers = {
@@ -47,11 +62,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if response.status_code == 200:
             print("****200*")
             # Parse the JSON response
-            api_data = response.json()
-            print(f"****Data received*{api_data}")
+            api_data = response.json()            
+            transfrom_api_data = transform_data(api_data)
+           
+            print(f"****Data received*{transfrom_api_data}")
             # Return the data as an HTTP response
             return func.HttpResponse(
-                body=json.dumps(api_data),
+                body=json.dumps(transfrom_api_data),
                 status_code=200,
                 mimetype="application/json"
         )
@@ -68,3 +85,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.error(f"Error querying Application Insights: {str(e)}")
         print("Error querying Application Insights: ", str(e))
         return func.HttpResponse(f"Error querying Application Insights: {str(e)}", status_code=500)
+
+def transform_data(input_data):
+        # Transform data
+    output_data = {"data": []}
+
+    for table in input_data.get("tables", []):
+        columns = [col["name"] for col in table.get("columns", [])]  # Extract column names
+        for row in table.get("rows", []):
+            row_dict = {columns[i]: row[i] for i in range(len(columns)) if row[i] is not None}  # Exclude None values
+            output_data["data"].append([row_dict])
+   
+    # Convert to JSON string and print
+    print(output_data)
+    return output_data

@@ -1,9 +1,11 @@
 {
-    "azureFunctions.deploySubpath": "observability\\testfn",
+    "azureFunctions.deploySubpath": "observability\\azFn-AppInsightAPI",
     "azureFunctions.scmDoBuildDuringDeployment": true,
     "azureFunctions.projectLanguage": "Python",
     "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.projectLanguageModel": 2,
-    "azureFunctions.pythonVenv": ".venv"
+    "azureFunctions.pythonVenv": ".venv",
+    "azureFunctions.resourceGroup": "rg_aoai_pricing",
+    "azureFunctions.storageAccount": "aoaipricingstorage"
 }
