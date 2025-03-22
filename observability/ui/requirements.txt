@@ -1,0 +1,7 @@
+streamlit
+pandas
+altair
+streamlit-aggrid
+requests
+st_mui_table
+plotly
