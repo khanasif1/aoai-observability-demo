@@ -1,5 +1,5 @@
 {
-    "azureFunctions.deploySubpath": "observability\\azFn-AppInsightAPI",
+    "azureFunctions.deploySubpath": "observability\\azFn-AoAiModel-Pricing",
     "azureFunctions.scmDoBuildDuringDeployment": true,
     "azureFunctions.projectLanguage": "Python",
     "azureFunctions.projectRuntime": "~4",
