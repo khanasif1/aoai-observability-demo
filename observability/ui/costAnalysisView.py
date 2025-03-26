@@ -5,7 +5,7 @@ import plotly.express as px
 import time
 
 # API Endpoint (Replace with actual API)
-API_URL = "https://fn-get-insight.azurewebsites.net/api/aoai_pricing_appinsight_api"
+API_URL = "https://fn-get-insight-a3gefecte7hmdudp.australiaeast-01.azurewebsites.net/api/aoai_pricing_appinsight_api?"
 
 # Token cost per unit (adjust as needed)
 INPUT_TOKEN_COST = 0.00000395789

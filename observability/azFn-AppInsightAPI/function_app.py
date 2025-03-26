@@ -18,7 +18,7 @@ APP_INSIGHTS_RESOURCE_ID = "/subscriptions/c0346e61-0f1f-411a-8c22-32620deb01cf/
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
 @app.route(route="aoai_pricing_appinsight_api")
-def main(req: func.HttpRequest) -> func.HttpResponse:
+def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Azure Function HTTP trigger received a request.")
 
     # Kusto Query to get last 10 dependency logs

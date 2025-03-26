@@ -7,4 +7,4 @@
 
 func settings add API_KEY your-secret-api-key
 
-func azure functionapp publish  fn-get-aimodel-price
+func azure functionapp publish  fn-get-model-pricing --python
