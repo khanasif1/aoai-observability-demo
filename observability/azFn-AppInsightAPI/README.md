@@ -39,7 +39,7 @@ func start --python
 - Deploy
 
 `
-func azure functionapp publish  fn-get-insight
+func azure functionapp publish  fn-get-insight --python
 
 `
 
