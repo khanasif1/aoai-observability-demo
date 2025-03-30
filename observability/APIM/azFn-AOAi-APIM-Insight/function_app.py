@@ -13,22 +13,16 @@ credential = DefaultAzureCredential()
 client = LogsQueryClient(credential)
 
 # Set Application Insights Workspace ID
-APP_INSIGHTS_APP_ID = ""
-APP_INSIGHTS_APP_ID_OpenTel = "4584e6a8-ed2e-4227-812c-a3d59fc66d4a"
-APP_INSIGHTS_APP_ID_APIM = "18d3088c-24b1-4e88-9e06-8970db759e15"
+APP_INSIGHTS_APP_ID = "4584e6a8-ed2e-4227-812c-a3d59fc66d4a"
 APP_INSIGHTS_RESOURCE_ID = "/subscriptions/c0346e61-0f1f-411a-8c22-32620deb01cf/resourceGroups/rg_aihub/providers/microsoft.insights/components/sk_demo_insight"
+
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-@app.route(route="aoai_pricing_appinsight_api")
-def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Azure Function HTTP trigger received a request.")
+@app.route(route="http_get_apim_model_insight")
+def http_get_apim_model_insight(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
 
-    queryType = req.params.get('qType')
-    if not queryType:
-        return func.HttpResponse(
-            "Please pass a query type (qType = opentel | apim) on the query string",
-            status_code=400
-        )
+    name = req.params.get('name')
     try:
           # Get token using DefaultAzureCredential (works if you've logged in via az login)
         credential = DefaultAzureCredential()
@@ -36,38 +30,16 @@ def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
         # print("Token acquired: ", token)
         # Define query
         # query = "dependencies | where target contains 'Get4o Processing' or target contains 'chat' | where timestamp >= ago(10d) | project id, operation_ParentId, target, name,customDimensions['gen_ai.usage.input_tokens'],customDimensions['gen_ai.usage.output_tokens'], customDimensions['User Name']"
-        print("Query Type: ", queryType)
-        query = ""
-        if queryType == "opentel":
-            APP_INSIGHTS_APP_ID = APP_INSIGHTS_APP_ID_OpenTel
-            query = """let usr = dependencies 
-                        | where target contains 'Get4o Processing' 
-                        | where timestamp >= ago(10d) 
-                        | project id, operation_ParentId, target_usr=target, name, user=customDimensions['User Name'], performanceBucket;
-
-                        let token = dependencies 
-                        | where target contains 'chat' 
-                        | where timestamp >= ago(10d) 
-                        | project id, operation_ParentId, target_token=target, name, ot=customDimensions['gen_ai.usage.output_tokens'],it=customDimensions['gen_ai.usage.input_tokens'], performanceBucket;
-
-                        usr 
-                        | join kind=inner (token) on $left.id == $right.operation_ParentId
-                        | where isnotempty(user)
-                        | project ApiCall=name, User=user, InputToken=it, OutputToken=ot,Perforamnce=performanceBucket;"""
-        elif queryType == "apim":
-            APP_INSIGHTS_APP_ID = APP_INSIGHTS_APP_ID_APIM
-            query = """requests
+        
+        query = """requests
                     | where isnotnull(customDimensions["Response-Body"])
-                    | where timestamp >= ago(10d) 
                     | extend response_body = tostring(parse_json(customDimensions)["Response-Body"])
                     | extend parsed_body = parse_json(response_body)
                     | extend usage = parsed_body.usage
                     | project usage["prompt_tokens"], usage["completion_tokens"], usage["total_tokens"], 
                                 tostring(parse_json(tostring(parse_json(tostring(parse_json(customDimensions)["Request-Body"]))["messages"]))[0]), 
                                 parsed_body.model,url;"""
-       
-       
-       
+                    
        
         # Call Application Insights REST API
         url = f"https://api.applicationinsights.io/v1/apps/{APP_INSIGHTS_APP_ID}/query"
@@ -109,7 +81,6 @@ def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
 
 def transform_data(input_data):
         # Transform data
-    print("****Transform data*")
     output_data = {"data": []}
 
     for table in input_data.get("tables", []):
@@ -119,5 +90,5 @@ def transform_data(input_data):
             output_data["data"].append([row_dict])
    
     # Convert to JSON string and print
-    print(f"Transform   ****: {output_data}****")
+    print(output_data)
     return output_data
