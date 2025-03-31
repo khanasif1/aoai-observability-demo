@@ -3,8 +3,10 @@
 ## Run function locally
 
 - Create virtual env
+ 
+ ```
  python -m venv .venv
-
+```
 - enable virtual environment 
 
 ```
