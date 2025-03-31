@@ -14,9 +14,9 @@ client = LogsQueryClient(credential)
 
 # Set Application Insights Workspace ID
 APP_INSIGHTS_APP_ID = ""
-APP_INSIGHTS_APP_ID_OpenTel = "4584e6a8-ed2e-4227-812c-a3d59fc66d4a"
-APP_INSIGHTS_APP_ID_APIM = "18d3088c-24b1-4e88-9e06-8970db759e15"
-APP_INSIGHTS_RESOURCE_ID = "/subscriptions/c0346e61-0f1f-411a-8c22-32620deb01cf/resourceGroups/rg_aihub/providers/microsoft.insights/components/sk_demo_insight"
+APP_INSIGHTS_APP_ID_OpenTel = "4584e6a8-ed2e-4227-812c-a3d59fc66d4a" # Resource :Subscription: Microsoft Non-Production  RG: rg_aihub | AppInsight: sk_demo_insight
+APP_INSIGHTS_APP_ID_APIM = "18d3088c-24b1-4e88-9e06-8970db759e15" # Resource :Subscription: Microsoft Non-Production  RG: rg_aoai_pricing | AppInsight: appinsight-aoaiPricingApim
+
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
 @app.route(route="aoai_pricing_appinsight_api")
@@ -118,6 +118,5 @@ def transform_data(input_data):
             row_dict = {columns[i]: row[i] for i in range(len(columns)) if row[i] is not None}  # Exclude None values
             output_data["data"].append([row_dict])
    
-    # Convert to JSON string and print
     print(f"Transform   ****: {output_data}****")
     return output_data
