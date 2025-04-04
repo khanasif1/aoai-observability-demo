@@ -41,19 +41,19 @@ def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
         if queryType == "opentel":
             APP_INSIGHTS_APP_ID = APP_INSIGHTS_APP_ID_OpenTel
             query = """let usr = dependencies 
-                        | where target contains 'Get4o Processing' 
-                        | where timestamp >= ago(10d) 
-                        | project id, operation_ParentId, target_usr=target, name, user=customDimensions['User Name'], performanceBucket;
+                    | where target contains 'Get4o Processing' 
+                    | where timestamp >= ago(10d) 
+                    | project timestamp,id, operation_ParentId, target_usr=target, name, user=customDimensions['User Name'], performanceBucket;
 
-                        let token = dependencies 
-                        | where target contains 'chat' 
-                        | where timestamp >= ago(10d) 
-                        | project id, operation_ParentId, target_token=target, name, ot=customDimensions['gen_ai.usage.output_tokens'],it=customDimensions['gen_ai.usage.input_tokens'], performanceBucket;
+            let token = dependencies 
+                    | where target contains 'chat' 
+                    | where timestamp >= ago(10d) 
+                    | project id, operation_ParentId, target_token=target, name, ot=customDimensions['gen_ai.usage.output_tokens'],it=customDimensions['gen_ai.usage.input_tokens'], performanceBucket,model=customDimensions['gen_ai.response.model'];
 
-                        usr 
-                        | join kind=inner (token) on $left.id == $right.operation_ParentId
-                        | where isnotempty(user)
-                        | project ApiCall=name, User=user, InputToken=it, OutputToken=ot,Perforamnce=performanceBucket;"""
+            usr 
+                    | join kind=inner (token) on $left.id == $right.operation_ParentId
+                    | where isnotempty(user)
+                    | project timestamp, ApiCall=model, User=user, InputToken=it, OutputToken=ot,Perforamnce=performanceBucket;"""
         elif queryType == "apim":
             APP_INSIGHTS_APP_ID = APP_INSIGHTS_APP_ID_APIM
             query = """requests

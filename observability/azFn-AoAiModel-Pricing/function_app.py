@@ -10,7 +10,8 @@ from azure.ai.inference.models import SystemMessage, UserMessage
 import json
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
-
+model="gpt-4o"
+model_version="2024-11-20"
 
 def get_model_pricing(prompt):
 
@@ -68,9 +69,10 @@ def get_model_pricing(prompt):
 def http_get_price(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
-    print(name)
-    if name:
+    model = req.params.get('model')
+    model_version = req.params.get('model_version')    
+    if model and model_version:
+        print(f"Details: {model} : {model_version}")
         URL = 'https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/'
         print ("calling url")
         response = requests.get(URL)               
@@ -78,7 +80,7 @@ def http_get_price(req: func.HttpRequest) -> func.HttpResponse:
         data =  soup.find('section', id='pricing')
         # print(data)  # Print the entire HTML content for debugging
         print("data: received")
-        prompt = "Read the html data and extract the prices for all the Azure OpenAI Model gpt-4o Model version 2024-11-20 deployment global get AU currency , list the result in json format. Json should have name, input price, output price and Cached Input price"
+        prompt = f"Read the html data and extract the prices for all the Azure OpenAI Model : {model} Model version : {model_version} deployment global get AU currency , list the result in json format. Json should have name, input price, output price and Cached Input price"
         prompt = prompt + str(data)
         # print(prompt)
         modelprice = get_model_pricing(prompt)
@@ -89,6 +91,6 @@ def http_get_price(req: func.HttpRequest) -> func.HttpResponse:
         )
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
+             "Error!! Please pass model and model_version in the query string",
+             status_code=400
         )

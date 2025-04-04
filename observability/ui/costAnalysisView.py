@@ -6,7 +6,7 @@ import time
 
 # API Endpoint (Replace with actual API)
 API_URL = "https://fn-get-model-insight-app-e0epgsbzfvazgvde.australiaeast-01.azurewebsites.net/api/aoai_pricing_appinsight_api?qType="
-
+# API_URL = "http://localhost:7071/api/aoai_pricing_appinsight_api?qType="
 # Token cost per unit (adjust as needed)
 INPUT_TOKEN_COST = 0.00000395789
 OUTPUT_TOKEN_COST = 0.0000158316
@@ -84,15 +84,7 @@ st.markdown("<h1 class='main-title'>🚀 API Cost Dashboard (Auto-Refreshing �
 
 # **User Input for API Filtering**
 username = ""
-# col1, col2, col3 = st.columns([1, 1, 1])
-# with col1:
-#     username = st.text_input("🔍 Enter User Name to Filter Data:")
-# with col2:
-#     source = st.selectbox("🔄 Select API Source", ["opentel", "apim"])
-# with col3:
-#     if st.button("📡 Fetch Data"):
-#         st.session_state.source = source  # Store selected source in session state
-#         st.session_state.df = fetch_api_data(source, username)
+
 
 col1, col2 = st.columns([1, 1])
 

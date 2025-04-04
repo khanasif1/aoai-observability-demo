@@ -92,10 +92,7 @@ def sample_chat_completions_azure_openai(username, prompt):
             SystemMessage("You are a helpful assistant."),
             UserMessage(prompt),
         ]
-    )
-
-    print(response.choices[0].message.content)
-
+    )  
 
 if __name__ == "__main__":
     configure_azure_monitor()
