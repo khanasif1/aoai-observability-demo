@@ -5,7 +5,7 @@ import plotly.express as px
 import time
 
 # API Endpoint (Replace with actual API)
-API_URL = "https://fn-get-insight-a3gefecte7hmdudp.australiaeast-01.azurewebsites.net/api/aoai_pricing_appinsight_api?"
+API_URL = "https://fn-get-model-insight-app-e0epgsbzfvazgvde.australiaeast-01.azurewebsites.net/api/aoai_pricing_appinsight_api?qType="
 
 # Token cost per unit (adjust as needed)
 INPUT_TOKEN_COST = 0.00000395789
@@ -13,8 +13,8 @@ OUTPUT_TOKEN_COST = 0.0000158316
 
 # Function to Fetch API Data
 @st.cache_data(ttl=10)  # Refresh every 10 seconds
-def fetch_api_data(username=""):
-    response = requests.get(API_URL)
+def fetch_api_data(source="opentel", username=""):
+    response = requests.get(f"{API_URL}{source}")
     if response.status_code == 200:
         data = response.json()
         df = pd.DataFrame([entry[0] for entry in data["data"]])
@@ -79,12 +79,33 @@ st.markdown(
 
 st.markdown("<h1 class='main-title'>🚀 API Cost Dashboard (Auto-Refreshing 🔄)</h1>", unsafe_allow_html=True)
 
+# # **User Input for API Filtering**
+# username = st.text_input("🔍 Enter User Name to Filter Data:")
+
 # **User Input for API Filtering**
-username = st.text_input("🔍 Enter User Name to Filter Data:")
+username = ""
+# col1, col2, col3 = st.columns([1, 1, 1])
+# with col1:
+#     username = st.text_input("🔍 Enter User Name to Filter Data:")
+# with col2:
+#     source = st.selectbox("🔄 Select API Source", ["opentel", "apim"])
+# with col3:
+#     if st.button("📡 Fetch Data"):
+#         st.session_state.source = source  # Store selected source in session state
+#         st.session_state.df = fetch_api_data(source, username)
+
+col1, col2 = st.columns([1, 1])
+
+with col1:
+    source = st.selectbox("🔄 Select API Source", ["opentel", "apim"])
+with col2:
+    if st.button("📡 Fetch Data"):
+        st.session_state.source = source  # Store selected source in session state
+        st.session_state.df = fetch_api_data(source, username)
 
 st.empty()
 
-df = fetch_api_data(username)
+df = fetch_api_data(source, username)
 
 if df.empty:
     st.warning("⚠️ No data available for the selected user.")
@@ -121,5 +142,5 @@ else:
     st.plotly_chart(fig2, use_container_width=True)
 
 # **Auto Refresh**
-st.markdown("🔄 Auto-refreshing every 10 seconds...")
-auto_refresh(10)
+# st.markdown("🔄 Auto-refreshing every 10 seconds...")
+# auto_refresh(10)

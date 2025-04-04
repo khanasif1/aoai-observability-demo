@@ -57,14 +57,14 @@ def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
         elif queryType == "apim":
             APP_INSIGHTS_APP_ID = APP_INSIGHTS_APP_ID_APIM
             query = """requests
-                    | where isnotnull(customDimensions["Response-Body"])
-                    | where timestamp >= ago(10d) 
+                    | where isnotnull(customDimensions["Response-Body"]) and resultCode == 200
+                    | where timestamp >= ago(10d)                    
                     | extend response_body = tostring(parse_json(customDimensions)["Response-Body"])
+                    | extend user = tostring(parse_json(tostring(parse_json(tostring(parse_json(customDimensions)["Request-Body"]))["metadata"]))["user-name"])
                     | extend parsed_body = parse_json(response_body)
                     | extend usage = parsed_body.usage
-                    | project usage["prompt_tokens"], usage["completion_tokens"], usage["total_tokens"], 
-                                tostring(parse_json(tostring(parse_json(tostring(parse_json(customDimensions)["Request-Body"]))["messages"]))[0]), 
-                                parsed_body.model,url;"""
+                    | where isnotempty(user)
+                    | project timestamp, ApiCall=parsed_body.model, User=user, InputToken=usage["prompt_tokens"], OutputToken=usage["completion_tokens"],Perforamnce=performanceBucket;"""
        
        
        
