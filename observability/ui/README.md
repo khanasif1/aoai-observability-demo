@@ -2,8 +2,14 @@
 
 ## Prerequisites
 
-See [Prerequisites](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-inference/README.md#prerequisites) here.
-
+* azFn-AoAiModel-Pricing : shoud be dployed and endpoint should be updated
+```
+ PRICING_API_URL =""
+```
+* azFn-AppInsightAPI : : shoud be dployed and endpoint should be updated
+```
+API_URL=""
+```
 
 ## Setup
 
