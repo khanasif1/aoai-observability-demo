@@ -31,6 +31,7 @@ def fetch_token_pricing():
         if res.status_code == 200:
             print("Data fetched successfully.")
             pricing_data = res.json()[0]
+            print(pricing_data)
             input_cost = format(round(float(pricing_data["input_price"]) / 1_000_000, 8), '.6f')
             output_cost = format(round(float(pricing_data["output_price"]) / 1_000_000, 8), '.6f')
             model_name = pricing_data["name"]
@@ -123,7 +124,7 @@ username = ""
 # Pricing info at top
 st.markdown(
     f"""
-    <div style='background: #f1c40f; padding: 20px; border-radius: 10px; margin-bottom: 20px; color: #2c3e50; font-size: 16px;'>
+    <div style='background: #e0b9e9; padding: 20px; border-radius: 10px; margin-bottom: 20px; color: #2c3e50; font-size: 16px; width: 30%;'>
         <strong>Pricing Model:</strong> {MODEL_NAME}<br>
         <strong>Input Token Cost:</strong> ${INPUT_TOKEN_COST} per token<br>
         <strong>Output Token Cost:</strong> ${OUTPUT_TOKEN_COST} per token
