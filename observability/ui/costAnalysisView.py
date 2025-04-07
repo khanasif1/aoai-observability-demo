@@ -10,6 +10,38 @@ API_URL = "https://fn-get-model-insight-app-e0epgsbzfvazgvde.australiaeast-01.az
 # Token cost per unit (adjust as needed)
 INPUT_TOKEN_COST = 0.00000395789
 OUTPUT_TOKEN_COST = 0.0000158316
+DEFAULT_INPUT_TOKEN_COST = 0.0000
+DEFAULT_OUTPUT_TOKEN_COST = 0.0000
+model="gpt-4o"
+model_version="2024-11-20"
+
+
+
+# Fetch token cost from pricing API
+def fetch_token_pricing():
+    # input_cost = round(float("2.5000") / 1_000_000, 8)
+    # print("Input Cost: ", format(input_cost, '.6f'))
+    # output_cost = round(float("10.00") / 1_000_000, 8)
+    # print("Output Cost: ", format(output_cost, '.6f'))
+    try:
+        print("Fetching token pricing...")
+        PRICING_API_URL=f"https://fn-get-model-price-app-dcgtaeb3f2bsf5c6.australiaeast-01.azurewebsites.net/api/http_get_price?model={model}&model_version={model_version}"
+        print("Pricing API URL: ", PRICING_API_URL)
+        res = requests.get(PRICING_API_URL)
+        if res.status_code == 200:
+            print("Data fetched successfully.")
+            pricing_data = res.json()[0]
+            input_cost = format(round(float(pricing_data["input_price"]) / 1_000_000, 8), '.6f')
+            output_cost = format(round(float(pricing_data["output_price"]) / 1_000_000, 8), '.6f')
+            model_name = pricing_data["name"]
+            print(f"Model Name: {model_name}, Input Cost: {input_cost}, Output Cost: {output_cost}")
+            # Convert to float for consistency
+            return input_cost, output_cost, model_name        
+    except Exception as e:
+        print(f"Error fetching pricing data: {e}")
+        # Fallback to default values if API fails
+        # st.warning("⚠️ Failed to load pricing. Using defaults.")
+    return DEFAULT_INPUT_TOKEN_COST, DEFAULT_OUTPUT_TOKEN_COST, "Default Model"
 
 # Function to Fetch API Data
 @st.cache_data(ttl=10)  # Refresh every 10 seconds
@@ -30,8 +62,12 @@ def auto_refresh(interval=10):
     time.sleep(interval)
     st.rerun()  # Updated from `st.experimental_rerun()`
 
+
 # Streamlit Page Config
 st.set_page_config(page_title="API Cost Dashboard", layout="wide")
+
+# Fetch pricing once
+INPUT_TOKEN_COST, OUTPUT_TOKEN_COST, MODEL_NAME = fetch_token_pricing()
 
 # **Custom CSS for Vibrant UI**
 st.markdown(
@@ -84,7 +120,17 @@ st.markdown("<h1 class='main-title'>🚀 API Cost Dashboard (Auto-Refreshing �
 
 # **User Input for API Filtering**
 username = ""
-
+# Pricing info at top
+st.markdown(
+    f"""
+    <div style='background: #f1c40f; padding: 20px; border-radius: 10px; margin-bottom: 20px; color: #2c3e50; font-size: 16px;'>
+        <strong>Pricing Model:</strong> {MODEL_NAME}<br>
+        <strong>Input Token Cost:</strong> ${INPUT_TOKEN_COST} per token<br>
+        <strong>Output Token Cost:</strong> ${OUTPUT_TOKEN_COST} per token
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 col1, col2 = st.columns([1, 1])
 
@@ -105,8 +151,8 @@ else:
     # **Token Cost Calculation**
     df["InputToken"] = df["InputToken"].astype(int)
     df["OutputToken"] = df["OutputToken"].astype(int)
-    df["Input Cost"] = df["InputToken"] * INPUT_TOKEN_COST
-    df["Output Cost"] = df["OutputToken"] * OUTPUT_TOKEN_COST
+    df["Input Cost"] = df["InputToken"] * float(INPUT_TOKEN_COST)
+    df["Output Cost"] = df["OutputToken"] * float(OUTPUT_TOKEN_COST)
     df["Total Cost"] = df["Input Cost"] + df["Output Cost"]
 
     # **Colorful Metric Tiles**
