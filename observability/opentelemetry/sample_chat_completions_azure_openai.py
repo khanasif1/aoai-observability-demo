@@ -46,7 +46,8 @@ load_dotenv()
 
 @tracer.start_as_current_span("Get4o Processing")  # type: ignore
 def sample_chat_completions_azure_openai(username, prompt):
-    
+    print("Sample Chat Completions Azure OpenAI")
+
     span = trace.get_current_span()
     span.set_attribute("User Name",username)
     span.set_attribute("User Prompt",prompt)
@@ -77,7 +78,8 @@ def sample_chat_completions_azure_openai(username, prompt):
 
     else:  # Entra ID authentication
         from azure.identity import DefaultAzureCredential
-
+        
+       
         client = ChatCompletionsClient(
             endpoint=endpoint,
             credential=DefaultAzureCredential(exclude_interactive_browser_credential=False),
@@ -86,13 +88,14 @@ def sample_chat_completions_azure_openai(username, prompt):
         )
         
   
-    
+    print("Calling chat completions...")
     response = client.complete(
         messages=[
             SystemMessage("You are a helpful assistant."),
             UserMessage(prompt),
         ]
     )  
+    print("Response: ", response.choices[0].message.content)
 
 if __name__ == "__main__":
     configure_azure_monitor()
