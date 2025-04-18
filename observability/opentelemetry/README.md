@@ -35,6 +35,7 @@ See [Prerequisites](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/
   pip install --upgrade azure-ai-inference
   ```
 * If you plan to run the asynchronous client samples, insall the additional package [aiohttp](https://pypi.org/project/aiohttp/):
+
   ```bash
  & {.\.venv\Scripts\python.exe -m pip install -r requirements.txt}
 
@@ -51,6 +52,7 @@ See [Prerequisites](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/
 
 ## Run Sample : sample_chat_completions_azure_openai.py
 
+- Login with az login
 - python sample_chat_completions_azure_openai.py
 - Provide user : {enter any name}
 - Enter prompt :{ask what you like}
