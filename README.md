@@ -1,7 +1,7 @@
 # AI Demo World
 
 
-## Improved Solution Overview
+## Solution Overview
 
 This repository contains a solution to track per-user consumption and billing for Azure OpenAI services. It integrates:
 
@@ -55,14 +55,13 @@ This repository contains a solution to track per-user consumption and billing fo
        │  Application Insights │
        └───────────────────────┘
 
-
 ### How It Works
 
-[^1]: API requests flow through Azure APIM, leveraging managed identities for secure access.
-[^2]: azFn-AoAiModel-Pricing processes and logs usage data from Azure OpenAI models.
-[^3]: azFn-AppInsightAPI exposes the cost data from Application Insights as a consumable API.
-[^4]: OpenTelemetry Console App monitors and sends structured logs to enhance visibility.
-[^5]: Streamlit UI consumes the data to display user-specific cost analytics in a user-friendly dashboard.
+1. API requests flow through Azure APIM, leveraging managed identities for secure access.
+2. azFn-AoAiModel-Pricing processes and logs usage data from Azure OpenAI models.
+3. azFn-AppInsightAPI exposes the cost data from Application Insights as a consumable API.
+4. OpenTelemetry Console App monitors and sends structured logs to enhance visibility.
+5. Streamlit UI consumes the data to display user-specific cost analytics in a user-friendly dashboard.
 
 Deploy this solution according to Azure Best Practices to maintain optimal security, reliability, and cost management.
 
