@@ -38,7 +38,7 @@ This repository contains a solution to track per-user consumption and billing fo
 ### Architecture Diagram
 
 <p align="center">
-  <img  src="https://github.com/khanasif1/ai-demo-world/tree/main/observability/resources/architecture.png">
+  <img  src="https://github.com/khanasif1/ai-demo-world/blob/main/observability/resources/architecture.png">
 </p>
 
 ### How It Works
