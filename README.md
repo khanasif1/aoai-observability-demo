@@ -11,28 +11,28 @@ This repository contains a solution to track per-user consumption and billing fo
 
 ### Azure Functions
 
-[^1]: azFn-AoAiModel-Pricing
+1. azFn-AoAiModel-Pricing
 
-    - Receives usage data from the Azure OpenAI model.
-    - Calculates cost based on usage and a custom pricing structure.
-    - Publishes usage and cost data to Application Insights for analysis.
+- Receives usage data from the Azure OpenAI model.
+- Calculates cost based on usage and a custom pricing structure.
+- Publishes usage and cost data to Application Insights for analysis.
 
-[^2]: azFn-AppInsightAPI
+2. azFn-AppInsightAPI
 
-    - Retrieves stored usage and cost data from Application Insights.
-    - Provides a REST-style interface to share data with external dashboards or clients.
+- Retrieves stored usage and cost data from Application Insights.
+- Provides a REST-style interface to share data with external dashboards or clients.
 
 ### OpenTelemetry Console App
 
-    - Uses Python OpenTelemetry libraries to trace, measure, and log usage details.
-    - Links requests from Azure APIM and Azure Functions, providing a full picture of user session data.
-    - Enables you to isolate specific users through correlated traces for cost assessment.
+- Uses Python OpenTelemetry libraries to trace, measure, and log usage details.
+- Links requests from Azure APIM and Azure Functions, providing a full picture of user session data.
+- Enables you to isolate specific users through correlated traces for cost assessment.
 
 ### Streamlit UI
 
-    - Presents a dashboard with both real-time and historical usage costs per user.
-    - Integrates with the azFn-AppInsightAPI to fetch cost and usage data on demand.
-    - Lets you sort and filter results, making it straightforward to view costs in detail.
+- Presents a dashboard with both real-time and historical usage costs per user.
+- Integrates with the azFn-AppInsightAPI to fetch cost and usage data on demand.
+- Lets you sort and filter results, making it straightforward to view costs in detail.
 
 ### Architecture Diagram
 
