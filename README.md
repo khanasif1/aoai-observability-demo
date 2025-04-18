@@ -37,23 +37,9 @@ This repository contains a solution to track per-user consumption and billing fo
 
 ### Architecture Diagram
 
-┌────────────────────┐   ┌───────────────────────────┐   ┌────────────────────┐
-│    Streamlit UI    │ → │        Azure APIM         │ → │ Azure OpenAI Model │
-└────────────────────┘   └───────────────────────────┘   └────────────────────┘
-            │                         │
-     ┌──────┴─────────┐        ┌─────┴─────────┐
-     │ azFn-AoAiModel-│        │ azFn-AppInsight
-     │   Pricing      │        │       API      │
-     └────────────────┘        └───────────────┘
-                   │
-       ┌────────────────────┐
-       │ OpenTelemetry App  │
-       │    (Python)        │
-       └────────────────────┘
-                   │
-       ┌───────────────────────┐
-       │  Application Insights │
-       └───────────────────────┘
+<p align="center">
+  <img  src="https://github.com/khanasif1/ai-demo-world/tree/main/observability/resources/architecture.png">
+</p>
 
 ### How It Works
 
