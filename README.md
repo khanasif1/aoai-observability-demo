@@ -1,5 +1,4 @@
-# AI Demo World
-
+# Azure Open AI - Observability
 
 ## Solution Overview
 
