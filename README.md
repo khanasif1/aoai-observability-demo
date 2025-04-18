@@ -13,9 +13,9 @@ This repository contains a solution to track per-user consumption and billing fo
 
 1. azFn-AoAiModel-Pricing
 
-    - Receives usage data from the Azure OpenAI model.
-    - Calculates cost based on usage and a custom pricing structure.
-    - Publishes usage and cost data to Application Insights for analysis.
+    - Extracts data from Azure open AI pricing page
+    - Select price for specific model and version 
+    - Return as json the price of selcted model and version
 
 2. azFn-AppInsightAPI
 
