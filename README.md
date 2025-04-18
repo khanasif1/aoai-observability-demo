@@ -36,6 +36,7 @@ This repository contains a solution to track per-user consumption and billing fo
     - Lets you sort and filter results, making it straightforward to view costs in detail.
 
 ### Architecture Diagram
+
 ┌────────────────────┐   ┌───────────────────────────┐   ┌────────────────────┐
 │    Streamlit UI    │ → │        Azure APIM         │ → │ Azure OpenAI Model │
 └────────────────────┘   └───────────────────────────┘   └────────────────────┘
