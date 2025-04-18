@@ -13,14 +13,14 @@ This repository contains a solution to track per-user consumption and billing fo
 
 1. azFn-AoAiModel-Pricing
 
-- Receives usage data from the Azure OpenAI model.
-- Calculates cost based on usage and a custom pricing structure.
-- Publishes usage and cost data to Application Insights for analysis.
+    - Receives usage data from the Azure OpenAI model.
+    - Calculates cost based on usage and a custom pricing structure.
+    - Publishes usage and cost data to Application Insights for analysis.
 
 2. azFn-AppInsightAPI
 
-- Retrieves stored usage and cost data from Application Insights.
-- Provides a REST-style interface to share data with external dashboards or clients.
+    - Retrieves stored usage and cost data from Application Insights.
+    - Provides a REST-style interface to share data with external dashboards or clients.
 
 ### OpenTelemetry Console App
 
