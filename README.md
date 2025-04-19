@@ -1,4 +1,4 @@
-# Azure Open AI - Observability - v1
+# Azure Open AI - Observability
 
 <p align="center">
   <img  src="https://github.com/khanasif1/ai-demo-world/blob/main/observability/resources/apim.gif">
