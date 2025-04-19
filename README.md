@@ -54,8 +54,10 @@ This repository contains a solution to track per-user consumption and billing fo
 
 Deploy this solution according to Azure Best Practices to maintain optimal security, reliability, and cost management.
 
+### APIM Configuration
 - APIM Auth Config - https://github.com/HoussemDellai/ai-course/blob/main/300_apim_genai_openai/policy.xml
 <!-- https://www.youtube.com/watch?v=8u75pIIObpo&t=1037s -->
+
 ```
 <authentication-managed-identity resource="https://cognitiveservices.azure.com"
             output-token-variable-name="managed-id-access-token" ignore-error="false" />

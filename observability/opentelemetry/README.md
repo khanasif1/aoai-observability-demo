@@ -1,22 +1,9 @@
+# Console application with opentelemetry
 
-https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/ai/azure-ai-inference/samples
----
-page_type: sample
-languages:
-  - python
-products:
-  - azure
-  - azure-ai
-urlFragment: model-inference-samples
----
+These are runnable console Python scripts that show how to do chat completion against Serverless API endpoints and Managed Compute endpoints.
 
-# Samples for Azure AI Inference client library for Python
+Samples with `azure_openai` in their name show how to do chat completions against Azure OpenAI endpoints.
 
-These are runnable console Python scripts that show how to do chat completion and text embeddings against Serverless API endpoints and Managed Compute endpoints.
-
-Samples with `azure_openai` in their name show how to do chat completions and text embeddings against Azure OpenAI endpoints.
-
-Samples in this folder use the a synchronous clients. Samples in the subfolder `async_samples` use the asynchronous clients. The concepts are similar, you can easily modify any of the synchronous samples to asynchronous.
 
 ## Prerequisites
 

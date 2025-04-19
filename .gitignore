@@ -5,3 +5,4 @@ openManus/config/test.py
 .env/
 observability/.env
 .venv/
+observability/opentelemetry/.env

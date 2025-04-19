@@ -16,6 +16,7 @@ API_URL=""
 * Clone or download this sample repository
 * Open a command prompt / terminal window in this samples folder
 * Install the client library for Python with pip:
+
 ```bash
  pip install -r requirements.txt
 
@@ -24,8 +25,6 @@ API_URL=""
  ```
  streamlit run .\costAnalysisView.py
  ```
-
-
 
 ## Run Sample : sample_chat_completions_azure_openai.py
 
