@@ -6,3 +6,4 @@ openManus/config/test.py
 observability/.env
 .venv/
 observability/opentelemetry/.env
+observability/scrapeAoAIPricing/.env
