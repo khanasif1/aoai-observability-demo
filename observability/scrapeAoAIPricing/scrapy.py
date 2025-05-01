@@ -7,7 +7,7 @@ from azure.core.credentials import AzureKeyCredential
 
 from azure.ai.inference.models import SystemMessage, UserMessage
 from dotenv import load_dotenv
-
+#updates
 load_dotenv()
 
 def get_model_pricing(prompt):
