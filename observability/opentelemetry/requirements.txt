@@ -5,3 +5,4 @@ azure.monitor.opentelemetry
 aiohttp
 python-dotenv
 azure-ai-inference
+azure-identity

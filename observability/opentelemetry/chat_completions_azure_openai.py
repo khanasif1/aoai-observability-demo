@@ -35,7 +35,7 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 
 from azure.ai.inference.models import SystemMessage, UserMessage
 from dotenv import load_dotenv
-
+from azure.identity import DefaultAzureCredential
 
 # [START trace_function]
 from opentelemetry.trace import get_tracer
@@ -58,7 +58,7 @@ def sample_chat_completions_azure_openai(username, prompt):
         print("Set it before running this sample.")
         exit()
 
-    key_auth = True  # Set to True for key authentication, or False for Entra ID authentication.
+    key_auth = False  # Set to True for key authentication, or False for Entra ID authentication.
 
     if key_auth:
         from azure.core.credentials import AzureKeyCredential
@@ -76,16 +76,20 @@ def sample_chat_completions_azure_openai(username, prompt):
             api_version="2024-06-01",  # Azure OpenAI api-version. See https://aka.ms/azsdk/azure-ai-inference/azure-openai-api-versions
         )
 
-    else:  # Entra ID authentication
-        from azure.identity import DefaultAzureCredential
+    else:  # Entra ID authentication               
         
-       
-        client = ChatCompletionsClient(
-            endpoint=endpoint,
-            credential=DefaultAzureCredential(exclude_interactive_browser_credential=False),
-            credential_scopes=["https://cognitiveservices.azure.com/.default"],
-            api_version="2024-06-01",  # Azure OpenAI api-version. See https://aka.ms/azsdk/azure-ai-inference/azure-openai-api-versions
-        )
+        try:
+
+            client = ChatCompletionsClient(
+                endpoint=endpoint,
+                credential=DefaultAzureCredential(exclude_interactive_browser_credential=False),
+                credential_scopes=["https://cognitiveservices.azure.com/.default"],
+                api_version="2024-06-01",  # Azure OpenAI api-version. See https://aka.ms/azsdk/azure-ai-inference/azure-openai-api-versions
+            )
+        except Exception as e:
+            print("Error in authentication: ", e)                
+            exit()
+    
         
   
     print("Calling chat completions...")
