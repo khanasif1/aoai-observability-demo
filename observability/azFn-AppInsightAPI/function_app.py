@@ -7,7 +7,7 @@ import json
 import requests
 from datetime import datetime, timedelta
 # Use DefaultAzureCredential to get token (it picks up az login credentials)
-credential = DefaultAzureCredential()
+# credential = DefaultAzureCredential()
 
 # Create LogsQueryClient
 client = LogsQueryClient(credential)
