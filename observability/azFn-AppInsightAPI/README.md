@@ -33,6 +33,8 @@ func start --python
 
 ## Deploy Function
 
+- az login
+
 - Create a Azure function using portal or CLI
 
 - If you are direcly deploying function enale virtual environment

@@ -12,28 +12,26 @@ INPUT_TOKEN_COST = 0.00000395789
 OUTPUT_TOKEN_COST = 0.0000158316
 DEFAULT_INPUT_TOKEN_COST = 0.0000
 DEFAULT_OUTPUT_TOKEN_COST = 0.0000
-model="gpt-4o"
-model_version="2024-11-20"
+model="GPT-4omini 0718"
+# model_version="2024-1120"
 
 
 
 # Fetch token cost from pricing API
 def fetch_token_pricing():
-    # input_cost = round(float("2.5000") / 1_000_000, 8)
-    # print("Input Cost: ", format(input_cost, '.6f'))
-    # output_cost = round(float("10.00") / 1_000_000, 8)
-    # print("Output Cost: ", format(output_cost, '.6f'))
     try:
         print("Fetching token pricing...")
-        PRICING_API_URL=f"https://fn-get-model-price-app-dcgtaeb3f2bsf5c6.australiaeast-01.azurewebsites.net/api/http_get_price?model={model}&model_version={model_version}"
+        # PRICING_API_URL=f"https://fn-get-model-price-app-dcgtaeb3f2bsf5c6.australiaeast-01.azurewebsites.net/api/http_get_price?model={model}&model_version={model_version}"
+        PRICING_API_URL=f"http://localhost:7071/api/http_get_price?model_name={model}"
         print("Pricing API URL: ", PRICING_API_URL)
         res = requests.get(PRICING_API_URL)
         if res.status_code == 200:
+            print("Pricing API response: ", res.json())
             print("Data fetched successfully.")
-            pricing_data = res.json()[0]
+            pricing_data = res.json()
             print(pricing_data)
-            input_cost = format(round(float(pricing_data["input_price"]) / 1_000_000, 8), '.6f')
-            output_cost = format(round(float(pricing_data["output_price"]) / 1_000_000, 8), '.6f')
+            input_cost = format(round(float(pricing_data["input_price"]) / 1_000_000, 8), '.10f')
+            output_cost = format(round(float(pricing_data["output_price"]) / 1_000_000, 8), '.10f')
             model_name = pricing_data["name"]
             print(f"Model Name: {model_name}, Input Cost: {input_cost}, Output Cost: {output_cost}")
             # Convert to float for consistency
@@ -49,7 +47,7 @@ def fetch_token_pricing():
 def fetch_api_data(source="opentel", username=""):
     response = requests.get(f"{API_URL}{source}")
     if response.status_code == 200:
-        data = response.json()
+        data = response.json()       
         df = pd.DataFrame([entry[0] for entry in data["data"]])
         if username:
             df = df[df["User"].str.lower() == username.lower()]

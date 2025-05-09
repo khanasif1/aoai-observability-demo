@@ -6,3 +6,5 @@ azure-functions
 requests
 beautifulsoup4
 azure-ai-inference
+azure-identity
+azure-storage-blob

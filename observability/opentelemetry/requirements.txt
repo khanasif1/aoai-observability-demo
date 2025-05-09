@@ -6,3 +6,4 @@ aiohttp
 python-dotenv
 azure-ai-inference
 azure-identity
+AzureOpenAI

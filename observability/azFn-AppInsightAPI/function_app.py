@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 # credential = DefaultAzureCredential()
 
 # Create LogsQueryClient
-client = LogsQueryClient(credential)
+# client = LogsQueryClient(credential)
 
 # Set Application Insights Workspace ID
 APP_INSIGHTS_APP_ID = ""
@@ -52,7 +52,7 @@ def http_get_insight(req: func.HttpRequest) -> func.HttpResponse:
 
             usr 
                     | join kind=inner (token) on $left.id == $right.operation_ParentId
-                    | where isnotempty(user)
+                    | where isnotempty(user) and isnotnull(it)
                     | project timestamp, ApiCall=model, User=user, InputToken=it, OutputToken=ot,Perforamnce=performanceBucket;"""
         elif queryType == "apim":
             APP_INSIGHTS_APP_ID = APP_INSIGHTS_APP_ID_APIM
