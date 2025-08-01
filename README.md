@@ -1,10 +1,10 @@
-# Azure Open AI - Observability
+# Azure Open AI - Observability Demo
 
 <p align="center">
   <img  src="https://github.com/khanasif1/ai-demo-world/blob/main/observability/resources/apim.gif">
 </p>
 
-## Solution Overview
+## Solution Design Overview
 
 This repository contains a solution to track per-user consumption and billing for Azure OpenAI services. It integrates:
 

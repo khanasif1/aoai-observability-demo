@@ -70,7 +70,7 @@ def sample_chat_completions_azure_openai(username, prompt):
             endpoint=endpoint,
             credential=_credential,
             credential_scopes=["https://cognitiveservices.azure.com/.default"],
-            api_version="2024-06-01"
+            api_version="2024-12-01-preview"
         )
     except Exception as e:
         print("Error in authentication: ", e)                
